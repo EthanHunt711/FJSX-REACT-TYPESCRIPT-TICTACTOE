@@ -6,7 +6,7 @@ type Props = {
 
 const Square = ({ index, onClick, player }: Props) => {
   const scale = player ? "scale-100" : "scale-0";
-  const textColor = player === "X" ? "text-yellow-200" : "text-fuchsia-300";
+  const textColor = player === "X" ? "text-red-600" : "text-blue-900";
   const hoverStyle = "transition duration-500 hover:scale-105 transform";
   return (
     <div
@@ -16,7 +16,7 @@ const Square = ({ index, onClick, player }: Props) => {
     >
       <span
         data-cell-index={index}
-        className={`transform transition-all duration-150 ease-out ${scale}${textColor}`}
+        className={`transform transition-all duration-150 ease-out ${scale} ${textColor}`}
       >
         {player}
       </span>

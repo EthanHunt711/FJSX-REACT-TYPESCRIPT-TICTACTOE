@@ -110,7 +110,7 @@ function App() {
   };
   return (
     <>
-      <div className="h-full p8 text-slate-800 bg-gradient-to-r from-cyan-500 to-blue-500">
+      <div className="h-full p8 text-slate-800 bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%">
         <h1 className="text-center text-5xl mb-4 font-display text-white pt-10">
           TIC TAC TOE
         </h1>
@@ -136,7 +136,7 @@ function App() {
             <p className="text-blue-900 text-4xl mt-5">
               Player O wins: <span>{scores["O"]}</span>
             </p>
-            <p className="text-blue-900 text-4xl mt-5">
+            <p className="text-yellow-900 text-4xl mt-5">
               Games drawn: <span>{scores["D"]}</span>
             </p>
             {!gameState.includes("") ? (
