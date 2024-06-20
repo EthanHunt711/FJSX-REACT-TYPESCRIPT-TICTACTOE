@@ -6,7 +6,7 @@ type Scores = {
 };
 
 const initialState = ["", "", "", "", "", "", "", "", ""];
-const initialScores: Scores = { X: 0, O: 0 };
+const initialScores: Scores = { X: 0, O: 0, D: 0 };
 const winingCombination = [
   [0, 1, 2],
   [3, 4, 5],
@@ -22,6 +22,7 @@ function App() {
   const [gameState, setGameState] = useState(initialState);
   const [currentPlaye, setCurrentPlayer] = useState("X");
   const [scores, setScores] = useState(initialScores);
+  const [winner, setWinner] = useState("");
 
   useEffect(() => {
     const savedScores = localStorage.getItem("scores");
@@ -37,7 +38,8 @@ function App() {
   const resetBoard = () => setGameState(initialState);
 
   const handleWin = () => {
-    window.alert(`${currentPlaye} has won!`);
+    // window.alert(`${currentPlaye} has won!`);
+    setWinner(currentPlaye);
     const newPlayerScore = scores[currentPlaye] + 1;
     const newScores = { ...scores };
     newScores[currentPlaye] = newPlayerScore;
@@ -47,13 +49,17 @@ function App() {
   };
 
   const handleDraw = () => {
-    window.alert("no winner");
+    // window.alert("no winner");
+    const newDrawScore = scores["D"] + 1;
+    const newScores = { ...scores };
+    newScores["D"] = newDrawScore;
+    setScores(newScores);
+    localStorage.setItem("scores", JSON.stringify(newScores));
     resetBoard();
   };
 
   const checkForAWinner = () => {
     let roundWon = false;
-
     for (let i = 0; i < winingCombination.length; i++) {
       const winCombination = winingCombination[i];
 
@@ -73,6 +79,7 @@ function App() {
 
     if (roundWon) {
       setTimeout(() => handleWin(), 500);
+
       return;
     }
 
@@ -104,28 +111,43 @@ function App() {
   return (
     <>
       <div className="h-full p8 text-slate-800 bg-gradient-to-r from-cyan-500 to-blue-500">
-        <h1 className="text-center text-5xl mb-4 font-display text-white">
-          APP
+        <h1 className="text-center text-5xl mb-4 font-display text-white pt-10">
+          TIC TAC TOE
         </h1>
-        <div className="p-10 grid grid-cols-3 gap-3 max-auto w-96">
-          {gameState.map((player, index) => (
-            <Square
-              key={index}
-              onClick={handleCellClick}
-              {...{ index, player }}
-            />
-          ))}
-        </div>
-        <div className="mx-auto w-96 text-2xl text-serif">
-          <p>
-            Next player: <span>{currentPlaye}</span>{" "}
-          </p>
-          <p className="text-white mt-5">
-            Player X wins: <span>{scores["X"]}</span>
-          </p>
-          <p className="text-white mt-5">
-            Player O wins: <span>{scores["O"]}</span>
-          </p>
+        <div className="grid grid-cols-2 gap-10">
+          <div className="flex flex-col items-center justify-center p-50">
+            <p className="text-black text-4xl font-bold mt-5">
+              Next player: <span>{currentPlaye}</span>{" "}
+            </p>
+            <div className="p-10 grid grid-cols-3 gap-3 max-auto w-96">
+              {gameState.map((player, index) => (
+                <Square
+                  key={index}
+                  onClick={handleCellClick}
+                  {...{ index, player }}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="mx-auto w-96 text-2xl text-serif flex flex-col items-center justify-center gap-10">
+            <p className="text-red-600 text-4xl mt-5">
+              Player X wins: <span>{scores["X"]}</span>
+            </p>
+            <p className="text-blue-900 text-4xl mt-5">
+              Player O wins: <span>{scores["O"]}</span>
+            </p>
+            <p className="text-blue-900 text-4xl mt-5">
+              Games drwan: <span>{scores["D"]}</span>
+            </p>
+            {!gameState.includes("") ? (
+              <p className="text-white text-4xl mt-25">There are no winners</p>
+            ) : (
+              <p className="text-white text-4xl mt-25">
+                {" "}
+                Congratulations! The last round won by {winner}.
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </>
