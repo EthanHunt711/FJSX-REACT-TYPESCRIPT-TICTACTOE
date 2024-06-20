@@ -137,7 +137,7 @@ function App() {
               Player O wins: <span>{scores["O"]}</span>
             </p>
             <p className="text-blue-900 text-4xl mt-5">
-              Games drwan: <span>{scores["D"]}</span>
+              Games drawn: <span>{scores["D"]}</span>
             </p>
             {!gameState.includes("") ? (
               <p className="text-white text-4xl mt-25">There are no winners</p>
